@@ -63,9 +63,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd app
-            docker pull shravanychandhanaa/frontend:latest
-            docker pull shravanychandhanaa/backend:latest
-            docker images | grep frontend && docker images | grep backend
+            docker-compose pull
             docker-compose up -d
-            docker ps | grep frontend && docker ps | grep backend
+            docker-compose ps
             
