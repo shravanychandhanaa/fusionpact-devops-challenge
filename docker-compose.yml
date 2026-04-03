@@ -1,0 +1,39 @@
+project: fusionpact
+services:
+  backend:
+    image: shravanychandhanaa/backend:latest
+    container_name: backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - fusiondata:/app/app/data
+    networks:
+      - fusionpact
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    image: shravanychandhanaa/frontend:latest
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - fusionpact
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30
+      timeout: 10s
+      retries: 3
+
+volumes:
+  fusiondata:
+    driver: local
+
+networks:
+  fusionpact:
+    driver: bridge
